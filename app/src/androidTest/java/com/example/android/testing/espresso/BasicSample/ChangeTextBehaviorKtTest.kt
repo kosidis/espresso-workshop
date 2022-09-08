@@ -20,19 +20,31 @@ import androidx.test.ext.junit.rules.activityScenarioRule
 import android.app.Activity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.example.android.testing.espresso.BasicSample.page.ListPage
+import com.example.android.testing.espresso.BasicSample.page.MainPage
+import com.example.android.testing.espresso.BasicSample.page.SecondPage
+import com.google.common.base.Predicates.equalTo
+import com.google.common.base.Predicates.instanceOf
+import junit.runner.Version.id
+import org.hamcrest.collection.IsArrayContaining.hasItemInArray
+import org.hamcrest.collection.IsMapContaining.hasEntry
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.hamcrest.core.AllOf.allOf
+import org.hamcrest.core.Is.`is`
+import org.hamcrest.core.StringStartsWith.startsWith
 
 
 /**
@@ -46,6 +58,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class ChangeTextBehaviorKtTest {
+    val operationSystem: String = "Android"
+    val toastMessage: String = "Android selected"
 
     /**
      * Use [ActivityScenarioRule] to create and launch the activity under test before each test,
@@ -58,12 +72,13 @@ class ChangeTextBehaviorKtTest {
     fun changeText_sameActivity() {
 
         // Type text and then press the button.
-        onView(withId(R.id.editTextUserInput))
-                .perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard())
-        onView(withId(R.id.changeTextBt)).perform(click())
+        val mainPage = MainPage()
+        mainPage.typeText(STRING_TO_BE_TYPED)
+
+        mainPage.clickChangeButton()
 
         // Check that the text was changed.
-        onView(withId(R.id.textToBeChanged)).check(matches(withText(STRING_TO_BE_TYPED)))
+        mainPage.getTextChanged().check(matches(withText(STRING_TO_BE_TYPED)))
         onView(withId(R.id.newTextToBeChanged)).check(matches(withText("Espresso New")))
     }
 
@@ -76,10 +91,42 @@ class ChangeTextBehaviorKtTest {
 
         // This view is in a different Activity, no need to tell Espresso.
         onView(withId(R.id.show_text_view)).check(matches(withText(STRING_TO_BE_TYPED)))
+
+        val secondPage = SecondPage()
+        secondPage.clickListButton()
+
+        val listPage = ListPage()
+        listPage.checkView()
+
+
+        val dataInteraction = onData(allOf())
+        onData(allOf(`is`(instanceOf(String.javaClass)), startsWith(operationSystem))).perform(click())
+       // val dataInt = onData(allOf(`is`(instanceOf(String::class.java))))
+            //.perform(click())
+        /*onData(withItemContent())
+            .onChildView(withText(operationSystem))
+            .perform(click())*/
+
+        onView(withText(toastMessage))
+            .inRoot(ToastMessage())
+            .check(matches(isDisplayed()))
+
+
+
+
     }
+    @Test
+    fun goToList() {
+
+    }
+
+
 
     companion object {
 
         val STRING_TO_BE_TYPED = "Espresso"
     }
+
+
+
 }
