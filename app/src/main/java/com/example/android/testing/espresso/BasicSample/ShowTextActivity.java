@@ -22,12 +22,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 /**
  * A simple {@link Activity} that shows a message.
  */
-public class ShowTextActivity extends Activity {
+public class ShowTextActivity extends Activity implements View.OnClickListener {
 
     // The name of the extra data sent through an {@link Intent}.
     public final static String KEY_EXTRA_MESSAGE =
@@ -44,6 +45,26 @@ public class ShowTextActivity extends Activity {
 
         // Show message.
         ((TextView)findViewById(R.id.show_text_view)).setText(message);
+
+        findViewById(R.id.mainActivityBtn).setOnClickListener(this);
+        findViewById(R.id.listActivityBtn).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        final int mainActivityBtn = R.id.mainActivityBtn;
+        final int listActivityBtn = R.id.listActivityBtn;
+
+        if (view.getId() == mainActivityBtn) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        if (view.getId() == listActivityBtn) {
+            Intent intent = new Intent(this, MyListActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**

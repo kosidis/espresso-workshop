@@ -51,6 +51,8 @@ dependencies {
     // App dependencies
     implementation 'androidx.annotation:annotation:' + rootProject.androidxAnnotationVersion;
     implementation 'com.google.guava:guava:' + rootProject.guavaVersion
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    //implementation 'com.google.android.gms:play-services-ads:21.2.0'
 
     // Testing-only dependencies
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"

@@ -29,6 +29,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.example.android.testing.espresso.BasicSample.page.MainPage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,12 +59,13 @@ class ChangeTextBehaviorKtTest {
     fun changeText_sameActivity() {
 
         // Type text and then press the button.
-        onView(withId(R.id.editTextUserInput))
-                .perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard())
-        onView(withId(R.id.changeTextBt)).perform(click())
+        val mainPage = MainPage()
+        mainPage.typeText(STRING_TO_BE_TYPED)
+
+        mainPage.clickChangeButton()
 
         // Check that the text was changed.
-        onView(withId(R.id.textToBeChanged)).check(matches(withText(STRING_TO_BE_TYPED)))
+        mainPage.getTextChanged().check(matches(withText(STRING_TO_BE_TYPED)))
         onView(withId(R.id.newTextToBeChanged)).check(matches(withText("Espresso New")))
     }
 
