@@ -14,7 +14,7 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.example.android.testing.espresso.BasicSample"
-        minSdkVersion 14
+        minSdkVersion 18
         targetSdkVersion 32
         versionCode 1
         versionName "1.0"
@@ -82,11 +82,10 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-core:' + rootProject.espressoVersion
     testImplementation 'androidx.test.espresso:espresso-intents:' + rootProject.espressoVersion
     testImplementation 'androidx.test.ext:truth:' + rootProject.extTruthVersion
-    testImplementation "io.qameta.allure:allure-android-commons:2.2.1"
-    testImplementation "io.qameta.allure:allure-android-model:2.2.1"
-   // androidTestImplementation "io.qameta.allure:allure-espresso:2.0.0"
-    testImplementation "io.qameta.allure:allure-kotlin:2.2.1"
-    testImplementation "io.qameta.allure:allure-kotlin-android:2.2.1"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-model:2.0.0"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-commons:2.0.0"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-junit4:2.0.0"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-android:2.0.0"
 
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
     androidTestImplementation "junit:junit:4.13.2"

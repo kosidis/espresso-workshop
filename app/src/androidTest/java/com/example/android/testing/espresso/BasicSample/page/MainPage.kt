@@ -9,10 +9,13 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.example.android.testing.espresso.BasicSample.R
+import io.qameta.allure.kotlin.Allure
 
 class MainPage {
 
+
     fun typeText(text:String) {
+        Allure.step("Type text: $text")
         Espresso.onView(ViewMatchers.withId(R.id.editTextUserInput))
             .perform(
                 ViewActions.typeText(text),
