@@ -21,4 +21,6 @@ class SecondPage {
     fun showText(): ViewInteraction {
         return onView(withId(R.id.show_text_view))
     }
+
+
 }

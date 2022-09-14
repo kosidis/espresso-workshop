@@ -1,8 +1,13 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
+repositories {
+    mavenCentral()
+    maven { url 'https://dl.bintray.com/qameta/maven' }
+}
 
 apply plugin: 'kotlin-android-extensions'
+
 
 android {
     compileSdkVersion 32
@@ -15,6 +20,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+        testInstrumentationRunner "io.qameta.allure.espresso.AllureAndroidRunner"
+
+
     }
     lintOptions {
         abortOnError false
@@ -47,6 +58,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
+
 dependencies {
     // App dependencies
     implementation 'androidx.annotation:annotation:' + rootProject.androidxAnnotationVersion;
@@ -65,9 +77,21 @@ dependencies {
 
     testImplementation 'androidx.test:core:' + rootProject.coreVersion;
     testImplementation 'androidx.test.ext:junit:' + rootProject.extJUnitVersion
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:' + rootProject.robolectricVersion
     testImplementation 'androidx.test.espresso:espresso-core:' + rootProject.espressoVersion
     testImplementation 'androidx.test.espresso:espresso-intents:' + rootProject.espressoVersion
     testImplementation 'androidx.test.ext:truth:' + rootProject.extTruthVersion
+    testImplementation "io.qameta.allure:allure-android-commons:2.2.1"
+    testImplementation "io.qameta.allure:allure-android-model:2.2.1"
+   // androidTestImplementation "io.qameta.allure:allure-espresso:2.0.0"
+    testImplementation "io.qameta.allure:allure-kotlin:2.2.1"
+    testImplementation "io.qameta.allure:allure-kotlin-android:2.2.1"
+
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.10"
+    androidTestImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
+
+
+
 }

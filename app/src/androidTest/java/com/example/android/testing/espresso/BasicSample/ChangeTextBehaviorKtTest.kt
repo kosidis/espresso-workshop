@@ -15,6 +15,10 @@
  */
 
 package com.example.android.testing.espresso.BasicSample
+import io.qameta.allure.android.rules.LogcatRule
+import io.qameta.allure.android.rules.ScreenshotRule
+import io.qameta.allure.android.rules.WindowHierarchyRule
+import io.qameta.allure.android.runners.AllureAndroidJUnit4
 
 import androidx.test.ext.junit.rules.activityScenarioRule
 import android.app.Activity
@@ -55,7 +59,7 @@ import org.hamcrest.core.StringStartsWith.startsWith
  *
  * Note that there is no need to tell Espresso that a view is in a different [Activity].
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(AllureAndroindJUnit4::class)
 @LargeTest
 class ChangeTextBehaviorKtTest {
     val operationSystem: String = "Android"
@@ -68,6 +72,7 @@ class ChangeTextBehaviorKtTest {
      */
     @get:Rule var activityScenarioRule = activityScenarioRule<MainActivity>()
 
+
     @Test
     fun changeText_sameActivity() {
 
@@ -75,41 +80,63 @@ class ChangeTextBehaviorKtTest {
         val mainPage = MainPage()
         mainPage.typeText(STRING_TO_BE_TYPED)
 
+
         mainPage.clickChangeButton()
 
         // Check that the text was changed.
-        mainPage.getTextChanged().check(matches(withText(STRING_TO_BE_TYPED)))
-        onView(withId(R.id.newTextToBeChanged)).check(matches(withText("Espresso New")))
+        mainPage.getTextChanged()
+            .check(matches(withText(STRING_TO_BE_TYPED)))
+
+
+        mainPage.typeText(NEW_STRING_TO_BE_TYPED)
+        //mainPage.clickChangeButton()
+        mainPage.newTextChanged()
+            .check(matches(withText(NEW_STRING_TO_BE_TYPED)))
     }
 
     @Test
     fun changeText_newActivity() {
         // Type text and then press the button.
-        onView(withId(R.id.editTextUserInput)).perform(typeText(STRING_TO_BE_TYPED),
-                closeSoftKeyboard())
-        onView(withId(R.id.activityChangeTextBtn)).perform(click())
+        //onView(withId(R.id.editTextUserInput)).perform(typeText(STRING_TO_BE_TYPED),
+                //closeSoftKeyboard())
+        val mainPage = MainPage()
+        val secondPage = SecondPage()
+
+        mainPage.typeText(STRING_TO_BE_TYPED)
+        mainPage.clickActivityButton()
+        //onView(withId(R.id.activityChangeTextBtn)).perform(click())
 
         // This view is in a different Activity, no need to tell Espresso.
-        onView(withId(R.id.show_text_view)).check(matches(withText(STRING_TO_BE_TYPED)))
+        //onView(withId(R.id.show_text_view)).check(matches(withText(STRING_TO_BE_TYPED)))
 
-        val secondPage = SecondPage()
+        secondPage.showText().check(matches(withText(STRING_TO_BE_TYPED)))
         secondPage.clickListButton()
 
         val listPage = ListPage()
         listPage.checkView()
 
+        @Test
 
-        val dataInteraction = onData(allOf())
-        onData(allOf(`is`(instanceOf(String.javaClass)), startsWith(operationSystem))).perform(click())
+        fun test() {
+            step("first step")
+
+
+        }
+
+
+
+
+        //val dataInteraction = onData(allOf())
+       // onData(allOf(`is`(instanceOf(String.javaClass)), startsWith(operationSystem))).perform(click())
        // val dataInt = onData(allOf(`is`(instanceOf(String::class.java))))
             //.perform(click())
         /*onData(withItemContent())
             .onChildView(withText(operationSystem))
             .perform(click())*/
 
-        onView(withText(toastMessage))
-            .inRoot(ToastMessage())
-            .check(matches(isDisplayed()))
+        //onView(withText(toastMessage))
+           // .inRoot(ToastMessage())
+            //.check(matches(isDisplayed()))
 
 
 
@@ -125,6 +152,7 @@ class ChangeTextBehaviorKtTest {
     companion object {
 
         val STRING_TO_BE_TYPED = "Espresso"
+        val NEW_STRING_TO_BE_TYPED = "Espresso New"
     }
 
 

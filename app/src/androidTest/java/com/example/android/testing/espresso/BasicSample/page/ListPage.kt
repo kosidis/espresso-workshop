@@ -17,10 +17,4 @@ class ListPage {
         onView(withId(R.id.label))
     }
 
-    fun clickListItem () {
-
-
-
-    }
-
 }
